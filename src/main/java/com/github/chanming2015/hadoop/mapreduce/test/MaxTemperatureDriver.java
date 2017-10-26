@@ -3,7 +3,6 @@ package com.github.chanming2015.hadoop.mapreduce.test;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
@@ -27,7 +26,6 @@ public class MaxTemperatureDriver extends Configured implements Tool
 {
     static class MaxTemperatureMapper extends Mapper<LongWritable, Text, Text, IntWritable>
     {
-
         @Override
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException
         {
@@ -47,7 +45,6 @@ public class MaxTemperatureDriver extends Configured implements Tool
 
     static class MaxTemperatureReducer extends Reducer<Text, IntWritable, Text, IntWritable>
     {
-
         @Override
         public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException
         {
@@ -79,8 +76,7 @@ public class MaxTemperatureDriver extends Configured implements Tool
             return -1;
         }
 
-        Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Max temperature");
+        Job job = Job.getInstance(getConf(), "Max temperature");
         job.setJarByClass(getClass());
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
